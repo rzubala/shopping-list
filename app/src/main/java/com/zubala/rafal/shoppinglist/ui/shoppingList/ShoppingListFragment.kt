@@ -22,9 +22,9 @@ class ShoppingListFragment : Fragment() {
 
         val viewModelFactory = ShoppingListViewModelFactory(dataSource, application)
 
-        val sleepTrackerViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShoppingListViewModel::class.java)
+        val shoppingListViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShoppingListViewModel::class.java)
 
-        binding.shoppingListViewModel = sleepTrackerViewModel
+        binding.shoppingListViewModel = shoppingListViewModel
 
         binding.lifecycleOwner = this
 
