@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
+import com.zubala.rafal.shoppinglist.database.insertTestData
 import com.zubala.rafal.shoppinglist.databinding.ShoppingListFragmentBinding
 
 class ShoppingListFragment : Fragment() {
@@ -27,6 +29,18 @@ class ShoppingListFragment : Fragment() {
         binding.shoppingListViewModel = shoppingListViewModel
 
         binding.lifecycleOwner = this
+
+        val adapter = ShoppingListAdapter()
+
+        binding.shoppingList.adapter = adapter
+
+        shoppingListViewModel.shoppingList.observe(viewLifecycleOwner, Observer {
+            adapter.submit(it)
+        })
+
+        if (false) {
+            insertTestData(application)
+        }
 
         return binding.root
     }
