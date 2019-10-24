@@ -11,7 +11,7 @@ fun insertTestData(context: Context) {
         val dao = ShoppingDatabase.getInstance(context).shoppingDatabaseDao
 
         for (i in 1..10) {
-            val shopping = ShoppingList(name = "Biedronka $i")
+            val shopping = ShoppingDetail(name = "Biedronka $i")
             dao.insert(shopping)
         }
     }

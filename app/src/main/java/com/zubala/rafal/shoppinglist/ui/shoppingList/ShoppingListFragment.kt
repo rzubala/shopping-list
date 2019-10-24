@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
 import com.zubala.rafal.shoppinglist.database.insertTestData
@@ -30,7 +31,20 @@ class ShoppingListFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val adapter = ShoppingListAdapter()
+        val adapter = ShoppingListAdapter(ShoppingDetailListener {
+            shoppingListViewModel.onShoppingDetailClicked(it)
+        })
+
+        shoppingListViewModel.navigateToShoppingDetails.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                this.findNavController().navigate(
+                    ShoppingListFragmentDirections.actionShoppingListFragmentToShoppingDetailFragment(
+                        it
+                    )
+                )
+                shoppingListViewModel.onShoppingDetailNavigated()
+            }
+        })
 
         binding.shoppingList.adapter = adapter
 

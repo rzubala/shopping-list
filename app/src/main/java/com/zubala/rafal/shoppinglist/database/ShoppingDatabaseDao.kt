@@ -9,8 +9,8 @@ import androidx.room.Query
 interface ShoppingDatabaseDao {
 
     @Query("Select * from shopping_list_table order by id desc")
-    fun getAllShoppingsList(): LiveData<List<ShoppingList>>
+    fun getAllShoppingsList(): LiveData<List<ShoppingDetail>>
 
     @Insert
-    fun insert(shoppingList: ShoppingList)
+    fun insert(shoppingDetail: ShoppingDetail)
 }

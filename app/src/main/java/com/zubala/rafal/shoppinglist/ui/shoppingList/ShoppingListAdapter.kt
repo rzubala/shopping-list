@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zubala.rafal.shoppinglist.database.ShoppingList
+import com.zubala.rafal.shoppinglist.database.ShoppingDetail
 import com.zubala.rafal.shoppinglist.databinding.ListItemShoppingBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ShoppingListAdapter : ListAdapter<DataItem.ShoppingListItem, ShoppingListAdapter.ViewHolder>(ShoppingListDiffCallback()) {
+class ShoppingListAdapter(val shoppingDetailListener: ShoppingDetailListener) : ListAdapter<DataItem.ShoppingDetailItem, ShoppingListAdapter.ViewHolder>(ShoppingListDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -22,12 +22,13 @@ class ShoppingListAdapter : ListAdapter<DataItem.ShoppingListItem, ShoppingListA
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val shoppingListItem = getItem(position)
-        holder.bind(shoppingListItem.shoppingList)
+        holder.bind(shoppingListItem.shoppingDetail, shoppingDetailListener)
     }
 
     class ViewHolder(private val binding: ListItemShoppingBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(shoppingList: ShoppingList) {
-            binding.shoppingList = shoppingList
+        fun bind(shoppingDetail: ShoppingDetail, clickListener: ShoppingDetailListener) {
+            binding.shoppingDetail = shoppingDetail
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -40,9 +41,9 @@ class ShoppingListAdapter : ListAdapter<DataItem.ShoppingListItem, ShoppingListA
         }
     }
 
-    fun submit(list: List<ShoppingList>?) {
+    fun submit(detail: List<ShoppingDetail>?) {
         adapterScope.launch {
-            val items = list?.map { DataItem.ShoppingListItem(it) }
+            val items = detail?.map { DataItem.ShoppingDetailItem(it) }
             withContext(Dispatchers.Main) {
                 submitList(items)
             }
@@ -50,25 +51,29 @@ class ShoppingListAdapter : ListAdapter<DataItem.ShoppingListItem, ShoppingListA
     }
 }
 
-class ShoppingListDiffCallback : DiffUtil.ItemCallback<DataItem.ShoppingListItem>() {
+class ShoppingListDiffCallback : DiffUtil.ItemCallback<DataItem.ShoppingDetailItem>() {
     override fun areItemsTheSame(
-        oldItem: DataItem.ShoppingListItem,
-        newItem: DataItem.ShoppingListItem
+        oldItem: DataItem.ShoppingDetailItem,
+        newItem: DataItem.ShoppingDetailItem
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: DataItem.ShoppingListItem,
-        newItem: DataItem.ShoppingListItem
+        oldItem: DataItem.ShoppingDetailItem,
+        newItem: DataItem.ShoppingDetailItem
     ): Boolean {
         return oldItem == newItem
     }
 }
 
+class ShoppingDetailListener(val clickListener: (shoppingDetailId: Long) -> Unit) {
+    fun onShoppingDetailClicked(shoppingDetail: ShoppingDetail) = clickListener(shoppingDetail.id)
+}
+
 sealed class DataItem {
-    data class ShoppingListItem(val shoppingList: ShoppingList): DataItem() {
-        override val id = shoppingList.id
+    data class ShoppingDetailItem(val shoppingDetail: ShoppingDetail): DataItem() {
+        override val id = shoppingDetail.id
     }
     abstract val id: Long
 }

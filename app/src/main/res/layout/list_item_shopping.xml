@@ -6,13 +6,17 @@
 
     <data>
         <variable
-            name="shoppingList"
-            type="com.zubala.rafal.shoppinglist.database.ShoppingList" />
+            name="shoppingDetail"
+            type="com.zubala.rafal.shoppinglist.database.ShoppingDetail" />
+        <variable
+            name="clickListener"
+            type="com.zubala.rafal.shoppinglist.ui.shoppingList.ShoppingDetailListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onShoppingDetailClicked(shoppingDetail)}">
         <TextView
             android:id="@+id/list_item_shopping"
             android:layout_width="0dp"
@@ -21,8 +25,8 @@
             android:layout_marginTop="@dimen/padding_small"
             android:layout_marginEnd="@dimen/padding_small"
             android:layout_marginBottom="@dimen/padding_small"
-            android:text="@{shoppingList.name}"
-            tools:text="Shopping list 1"
+            android:text="@{shoppingDetail.name}"
+            tools:text="Shopping detail 1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
