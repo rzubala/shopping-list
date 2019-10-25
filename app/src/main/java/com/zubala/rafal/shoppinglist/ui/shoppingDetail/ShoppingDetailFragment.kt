@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.zubala.rafal.shoppinglist.R
+import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
 import com.zubala.rafal.shoppinglist.databinding.ShoppingDetailFragmentBinding
 
 class ShoppingDetailFragment : Fragment() {
@@ -16,6 +18,15 @@ class ShoppingDetailFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val arguments = ShoppingDetailFragmentArgs.fromBundle(arguments!!)
+
+        val dataSource = ShoppingDatabase.getInstance(application).shoppingDatabaseDao
+        val viewModelFactory = ShoppingDetailViewModelFactory(arguments.shoppingDetailKey, dataSource)
+
+        val sjoppingDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShoppingDetailViewModel::class.java)
+
+        binding.shoppingDetailViewModel = sjoppingDetailViewModel
+
+        binding.lifecycleOwner = this
 
         Toast.makeText(application, "Id: ${arguments.shoppingDetailKey}", Toast.LENGTH_LONG).show()
 
