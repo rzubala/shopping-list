@@ -27,5 +27,20 @@
         <argument
             android:name="shoppingDetailKey"
             app:argType="long" />
+        <action
+            android:id="@+id/action_shopping_detail_fragment_to_shoppingCategoryFragment"
+            app:destination="@id/shoppingCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shoppingCategoryFragment"
+        android:name="com.zubala.rafal.shoppinglist.ui.shoppingCategory.ShoppingCategoryFragment"
+        android:label="ShoppingCategoryFragment"
+        tools:layout="@layout/shopping_category_fragment" >
+        <argument
+            android:name="shoppingDetailId"
+            app:argType="long" />
+        <argument
+            android:name="shoppingCategoryId"
+            app:argType="long" />
     </fragment>
 </navigation>

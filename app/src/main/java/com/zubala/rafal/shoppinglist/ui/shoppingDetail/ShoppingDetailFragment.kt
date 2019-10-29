@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
 import com.zubala.rafal.shoppinglist.databinding.ShoppingDetailFragmentBinding
@@ -22,13 +22,17 @@ class ShoppingDetailFragment : Fragment() {
         val dataSource = ShoppingDatabase.getInstance(application).shoppingDatabaseDao
         val viewModelFactory = ShoppingDetailViewModelFactory(arguments.shoppingDetailKey, dataSource)
 
-        val sjoppingDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShoppingDetailViewModel::class.java)
+        val shoppingDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShoppingDetailViewModel::class.java)
 
-        binding.shoppingDetailViewModel = sjoppingDetailViewModel
+        binding.shoppingDetailViewModel = shoppingDetailViewModel
+
+        binding.materialCardView.setOnClickListener {
+            this.findNavController().navigate(ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingCategoryFragment(
+                arguments.shoppingDetailKey, 0L
+            ))
+        }
 
         binding.lifecycleOwner = this
-
-        Toast.makeText(application, "Id: ${arguments.shoppingDetailKey}", Toast.LENGTH_LONG).show()
 
         return binding.root
     }
