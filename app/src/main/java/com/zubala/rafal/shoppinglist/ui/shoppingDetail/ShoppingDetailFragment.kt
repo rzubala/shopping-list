@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.zubala.rafal.shoppinglist.R
@@ -26,13 +27,23 @@ class ShoppingDetailFragment : Fragment() {
 
         binding.shoppingDetailViewModel = shoppingDetailViewModel
 
+        /*
         binding.materialCardView.setOnClickListener {
             this.findNavController().navigate(ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingCategoryFragment(
                 arguments.shoppingDetailKey, 0L
             ))
         }
+        */
+
+        val shoppingDetailCategoryAdapter = ShoppingDetailAdapter()
+
+        binding.detailCategoryList.adapter = shoppingDetailCategoryAdapter
 
         binding.lifecycleOwner = this
+
+        shoppingDetailViewModel.shoppingDetailCategories.observe(viewLifecycleOwner, Observer {
+            shoppingDetailCategoryAdapter.submit(it)
+        })
 
         return binding.root
     }

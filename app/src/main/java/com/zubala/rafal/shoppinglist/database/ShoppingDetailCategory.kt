@@ -5,7 +5,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(foreignKeys = arrayOf(ForeignKey(
+@Entity(
+    tableName = "shopping_detail_category",
+    foreignKeys = arrayOf(ForeignKey(
     entity = ShoppingDetail::class,
     parentColumns = arrayOf("id"),
     childColumns = arrayOf("shopping_detail_id")))

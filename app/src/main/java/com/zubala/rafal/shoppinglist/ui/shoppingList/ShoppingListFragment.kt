@@ -52,9 +52,7 @@ class ShoppingListFragment : Fragment() {
             adapter.submit(it)
         })
 
-        if (false) {
-            insertTestData(application)
-        }
+        insertTestData(application)
 
         return binding.root
     }

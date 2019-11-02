@@ -5,14 +5,28 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+const private val insert = false
+
 fun insertTestData(context: Context) {
+    if (!insert) {
+        return
+    }
 
     CoroutineScope(Dispatchers.IO).launch {
         val dao = ShoppingDatabase.getInstance(context).shoppingDatabaseDao
 
-        for (i in 1..10) {
+        dao.deleteAllShoppingDetails()
+        dao.deleteAllShoppingDetailCategories()
+
+        for (i in 1..3) {
             val shopping = ShoppingDetail(name = "Biedronka $i")
-            dao.insert(shopping)
+            val id = dao.insert(shopping)
+
+            val shoppingDetailCategory1 = ShoppingDetailCategory(category = "Owoce $i", shoppingDetailId = id)
+            dao.insert(shoppingDetailCategory1)
+
+            val shoppingDetailCategory2 = ShoppingDetailCategory(category = "Warzywa $i", shoppingDetailId = id)
+            dao.insert(shoppingDetailCategory2)
         }
     }
 }
