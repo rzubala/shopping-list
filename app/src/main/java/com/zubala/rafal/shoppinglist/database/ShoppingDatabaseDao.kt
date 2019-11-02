@@ -16,4 +16,8 @@ interface ShoppingDatabaseDao {
 
     @Insert
     fun insert(shoppingDetail: ShoppingDetail)
+
+    @Insert
+    fun insert(shoppingDetailCategory: ShoppingDetailCategory)
+
 }
