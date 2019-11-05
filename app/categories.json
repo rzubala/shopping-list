@@ -1,0 +1,23 @@
+{
+  "categories":
+  {
+    "lang": {
+      "pl": [
+        {
+          "name": "Warzywa"
+        },
+        {
+          "name": "Owoce"
+        }
+      ],
+      "en": [
+        {
+          "name": "Vegetables"
+        },
+        {
+          "name": "Fruit"
+        }
+      ]
+    }
+  }
+}

@@ -28,11 +28,11 @@
             android:name="shoppingDetailKey"
             app:argType="long" />
         <action
-            android:id="@+id/action_shopping_detail_fragment_to_shoppingCategoryFragment"
-            app:destination="@id/shoppingCategoryFragment" />
+            android:id="@+id/action_shopping_detail_fragment_to_shopping_detail_category_fragment"
+            app:destination="@id/shopping_detail_category_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/shoppingCategoryFragment"
+        android:id="@+id/shopping_detail_category_fragment"
         android:name="com.zubala.rafal.shoppinglist.ui.shoppingCategory.ShoppingCategoryFragment"
         android:label="ShoppingCategoryFragment"
         tools:layout="@layout/shopping_category_fragment" >

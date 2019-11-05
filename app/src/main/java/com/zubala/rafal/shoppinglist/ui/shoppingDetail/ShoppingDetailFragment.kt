@@ -27,15 +27,20 @@ class ShoppingDetailFragment : Fragment() {
 
         binding.shoppingDetailViewModel = shoppingDetailViewModel
 
-        /*
-        binding.materialCardView.setOnClickListener {
-            this.findNavController().navigate(ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingCategoryFragment(
-                arguments.shoppingDetailKey, 0L
-            ))
-        }
-        */
+        val shoppingDetailCategoryAdapter = ShoppingDetailAdapter(ShoppingDetailCategoryListener { shoppingDetailCategoryId ->
+            shoppingDetailViewModel.onShoppingDetailClicked(shoppingDetailCategoryId)
+        })
 
-        val shoppingDetailCategoryAdapter = ShoppingDetailAdapter()
+        shoppingDetailViewModel.navigateToShoppingDetailCategory.observe(this, Observer {
+            it?.let {
+                this.findNavController().navigate(
+                    ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingDetailCategoryFragment(
+                        it, 0L
+                    )
+                )
+                shoppingDetailViewModel.onShoppingDetailNavigated()
+            }
+        })
 
         binding.detailCategoryList.adapter = shoppingDetailCategoryAdapter
 

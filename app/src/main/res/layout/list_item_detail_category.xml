@@ -7,11 +7,15 @@
         <variable
             name="shoppingDetailCategory"
             type="com.zubala.rafal.shoppinglist.database.ShoppingDetailCategory" />
+        <variable
+            name="clickListener"
+            type="com.zubala.rafal.shoppinglist.ui.shoppingDetail.ShoppingDetailCategoryListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onShoppingDetailCategoryClicked(shoppingDetailCategory)}">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/material_card_view"

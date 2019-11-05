@@ -1,6 +1,8 @@
 package com.zubala.rafal.shoppinglist.ui.shoppingDetail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabaseDao
 import com.zubala.rafal.shoppinglist.database.ShoppingDetail
@@ -11,6 +13,18 @@ class ShoppingDetailViewModel(shoppingDetailId: Long, dataSource: ShoppingDataba
 
     private val _shoppingDetail = MediatorLiveData<ShoppingDetail>()
     fun getShoppingDetail() = _shoppingDetail
+
+    private val _navigateToShoppingDetailCategory = MutableLiveData<Long>()
+    val navigateToShoppingDetailCategory: LiveData<Long>
+        get() = _navigateToShoppingDetailCategory
+
+    fun onShoppingDetailClicked(shoppingDetailCategoryId: Long) {
+        _navigateToShoppingDetailCategory.value = shoppingDetailCategoryId
+    }
+
+    fun onShoppingDetailNavigated() {
+        _navigateToShoppingDetailCategory.value = null
+    }
 
     val shoppingDetailCategories = MediatorLiveData<List<ShoppingDetailCategory>>()
 

@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.shoppingDetail.ShoppingDetailFragment">
+        tools:context=".ui.shoppingDetail.ShoppingDetailFragment" >
 
         <TextView
             android:id="@+id/shopping_detail_name"
