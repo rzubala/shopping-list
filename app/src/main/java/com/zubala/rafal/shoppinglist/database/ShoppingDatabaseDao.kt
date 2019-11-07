@@ -39,4 +39,7 @@ interface ShoppingDatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllCategories(vararg categories: ShoppingCategory)
+
+    @Query("delete from shopping_category_table")
+    fun deleteAllCategories()
 }

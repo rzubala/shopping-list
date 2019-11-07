@@ -15,6 +15,7 @@ fun insertTestData(context: Context) {
     CoroutineScope(Dispatchers.IO).launch {
         val dao = ShoppingDatabase.getInstance(context).shoppingDatabaseDao
 
+        dao.deleteAllCategories()
         dao.deleteAllShoppingDetails()
         dao.deleteAllShoppingDetailCategories()
 

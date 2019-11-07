@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
 import com.zubala.rafal.shoppinglist.databinding.ShoppingCategoryFragmentBinding
+import com.zubala.rafal.shoppinglist.domain.asNames
 
 class ShoppingCategoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,12 +29,10 @@ class ShoppingCategoryFragment : Fragment() {
 
         binding.shoppingCategoryViewModel = shoppingCategoryViewModel
 
-        ArrayAdapter.createFromResource(this.activity, R.array.categories_array, android.R.layout.simple_spinner_item).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
+        shoppingCategoryViewModel.categories.observe(this, Observer { data ->
+            val adapter = ArrayAdapter(this.activity, android.R.layout.simple_spinner_item, data.asNames())
             binding.shoppingCategory.adapter = adapter
-        }
+        })
 
         binding.lifecycleOwner = this
 
