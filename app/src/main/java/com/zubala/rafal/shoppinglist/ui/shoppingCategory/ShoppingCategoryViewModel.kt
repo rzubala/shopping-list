@@ -13,8 +13,6 @@ import kotlinx.coroutines.launch
 class ShoppingCategoryViewModel(private val shoppingDetailId: Long, private val shoppingCategoryId: Long, dataSource: ShoppingDatabaseDao) : ViewModel() {
     val database = dataSource
 
-    // Internally, we use a MutableLiveData, because we will be updating the List of MarsProperty
-    // with new values
     private val _categories = MutableLiveData<List<CategoryProperty>>()
 
     // The external LiveData interface to the property is immutable, so only this class can modify
@@ -32,7 +30,7 @@ class ShoppingCategoryViewModel(private val shoppingDetailId: Long, private val 
                 _categories.value = categoriesDeffered.await()
                 Log.i("ShoppingCategoryVM", _categories.value.toString())
             } catch (e: Exception) {
-                Log.i("ShoppingCategoryVM", e.toString())
+                Log.e("ShoppingCategoryVM ex", e.toString())
             }
         }
     }

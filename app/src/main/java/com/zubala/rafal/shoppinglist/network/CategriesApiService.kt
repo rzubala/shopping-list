@@ -38,7 +38,7 @@ interface CategoriesApiService {
      * The @GET annotation indicates that the "realestate" endpoint will be requested with the GET
      * HTTP method
      */
-    @GET("categories.json")
+    @GET("categories/lang/pl.json")
     fun getCategories():
     // The Coroutine Call Adapter allows us to return a Deferred, a Job with a result
             Deferred<List<CategoryProperty>>

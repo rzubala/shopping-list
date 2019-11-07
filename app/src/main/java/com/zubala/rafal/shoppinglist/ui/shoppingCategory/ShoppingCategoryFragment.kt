@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -26,8 +27,14 @@ class ShoppingCategoryFragment : Fragment() {
 
         binding.shoppingCategoryViewModel = shoppingCategoryViewModel
 
-        binding.lifecycleOwner = this
+        ArrayAdapter.createFromResource(this.activity, R.array.categories_array, android.R.layout.simple_spinner_item).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            binding.shoppingCategory.adapter = adapter
+        }
 
+        binding.lifecycleOwner = this
 
         return binding.root
     }

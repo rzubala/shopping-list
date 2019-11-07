@@ -4,17 +4,21 @@
     "lang": {
       "pl": [
         {
+          "id": "vegetables",
           "name": "Warzywa"
         },
         {
+          "id": "fruit",
           "name": "Owoce"
         }
       ],
       "en": [
         {
+          "id": "vegetables",
           "name": "Vegetables"
         },
         {
+          "id": "fruit",
           "name": "Fruit"
         }
       ]
