@@ -1,10 +1,7 @@
 package com.zubala.rafal.shoppinglist.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ShoppingDatabaseDao {
@@ -36,4 +33,10 @@ interface ShoppingDatabaseDao {
 
     @Query("delete from shopping_detail_category")
     fun deleteAllShoppingDetails()
+
+    @Query("select * from shopping_category_table")
+    fun getShoppingCategories(): LiveData<List<ShoppingCategory>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllCategories(vararg categories: ShoppingCategory)
 }
