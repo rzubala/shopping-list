@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">My shopping list</string>
     <string name="mainfragment">MainFragment</string>
+    <string name="shopping_cart">Shopping cart</string>
 </resources>

@@ -31,7 +31,9 @@ class ShoppingCategoryFragment : Fragment() {
 
         shoppingCategoryViewModel.categories.observe(this, Observer { data ->
             val adapter = ArrayAdapter(this.activity, android.R.layout.simple_spinner_item, data.asNames())
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.shoppingCategory.adapter = adapter
+
         })
 
         binding.lifecycleOwner = this
