@@ -42,6 +42,12 @@ class ShoppingDetailFragment : Fragment() {
             }
         })
 
+        binding.addNewCategory.setOnClickListener {
+            this.findNavController().navigate(ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingDetailCategoryFragment(
+                arguments.shoppingDetailKey, 0L
+            ))
+        }
+
         binding.detailCategoryList.adapter = shoppingDetailCategoryAdapter
 
         binding.lifecycleOwner = this
