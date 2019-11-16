@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [ShoppingDetail::class, ShoppingDetailCategory::class, ShoppingCategory::class],
-    version = 4, exportSchema = false)
+    version = 5, exportSchema = false)
 abstract class ShoppingDatabase : RoomDatabase() {
 
     /**

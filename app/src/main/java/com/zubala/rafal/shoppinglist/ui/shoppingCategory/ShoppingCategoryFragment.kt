@@ -1,10 +1,11 @@
 package com.zubala.rafal.shoppinglist.ui.shoppingCategory
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -12,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
 import com.zubala.rafal.shoppinglist.databinding.ShoppingCategoryFragmentBinding
-import com.zubala.rafal.shoppinglist.domain.asNames
+import com.zubala.rafal.shoppinglist.domain.Category
 
 class ShoppingCategoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,14 +24,14 @@ class ShoppingCategoryFragment : Fragment() {
         val arguments = ShoppingCategoryFragmentArgs.fromBundle(arguments!!)
 
         val dataSource = ShoppingDatabase.getInstance(application).shoppingDatabaseDao
-        val viewModelFactory = ShoppingCategoryViewModelFactory(arguments.shoppingDetailId, arguments.shoppingCategoryId, dataSource)
+        val viewModelFactory = ShoppingCategoryViewModelFactory(arguments.shoppingDetailId, dataSource)
 
         val shoppingCategoryViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShoppingCategoryViewModel::class.java)
 
         binding.shoppingCategoryViewModel = shoppingCategoryViewModel
 
         shoppingCategoryViewModel.categories.observe(this, Observer { data ->
-            val adapter = ArrayAdapter(this.activity, android.R.layout.simple_spinner_item, data.asNames())
+            val adapter = ShoppingCategoryAdapter(this.activity!!, android.R.layout.simple_spinner_item, data)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.shoppingCategory.adapter = adapter
 
@@ -38,6 +39,19 @@ class ShoppingCategoryFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
+
+        binding.shoppingCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val item = parent?.getItemAtPosition(position) as Category
+                item?.let {
+                    shoppingCategoryViewModel.updateCategory(item.id)
+                }
+            }
+        }
         return binding.root
     }
 }

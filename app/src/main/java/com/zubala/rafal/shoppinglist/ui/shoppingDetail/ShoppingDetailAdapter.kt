@@ -1,12 +1,10 @@
 package com.zubala.rafal.shoppinglist.ui.shoppingDetail
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zubala.rafal.shoppinglist.database.ShoppingDetail
 import com.zubala.rafal.shoppinglist.database.ShoppingDetailCategory
 import com.zubala.rafal.shoppinglist.databinding.ListItemDetailCategoryBinding
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +37,10 @@ class ShoppingDetailAdapter(private val clickListener: ShoppingDetailCategoryLis
     class ViewHolder(private val binding: ListItemDetailCategoryBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(shoppingDetailCategory: ShoppingDetailCategory, clickListener: ShoppingDetailCategoryListener) {
             binding.shoppingDetailCategory = shoppingDetailCategory
+            shoppingDetailCategory.categoryId.let {categoryId ->
+                val categoryName = "TODO"
+                binding.shoppingCategoryName = categoryName
+            }
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }

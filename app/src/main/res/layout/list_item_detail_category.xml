@@ -8,6 +8,9 @@
             name="shoppingDetailCategory"
             type="com.zubala.rafal.shoppinglist.database.ShoppingDetailCategory" />
         <variable
+            name="shoppingCategoryName"
+            type="String" />
+        <variable
             name="clickListener"
             type="com.zubala.rafal.shoppinglist.ui.shoppingDetail.ShoppingDetailCategoryListener" />
     </data>
@@ -55,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:text="@{shoppingDetailCategory.category}"
+                    android:text="@{shoppingCategoryName}"
                     app:layout_constraintBottom_toBottomOf="@+id/category_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/category_image"

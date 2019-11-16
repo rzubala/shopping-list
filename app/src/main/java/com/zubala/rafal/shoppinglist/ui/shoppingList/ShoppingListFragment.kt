@@ -13,6 +13,7 @@ import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
 import com.zubala.rafal.shoppinglist.database.insertTestData
 import com.zubala.rafal.shoppinglist.databinding.ShoppingListFragmentBinding
+import com.zubala.rafal.shoppinglist.repository.CategoriesRepository
 
 class ShoppingListFragment : Fragment() {
 

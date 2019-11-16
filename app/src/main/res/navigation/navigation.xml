@@ -39,8 +39,5 @@
         <argument
             android:name="shoppingDetailId"
             app:argType="long" />
-        <argument
-            android:name="shoppingCategoryId"
-            app:argType="long" />
     </fragment>
 </navigation>

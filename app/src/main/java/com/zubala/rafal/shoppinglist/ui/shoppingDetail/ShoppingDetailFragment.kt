@@ -27,6 +27,7 @@ class ShoppingDetailFragment : Fragment() {
 
         binding.shoppingDetailViewModel = shoppingDetailViewModel
 
+        //FIXME get category name
         val shoppingDetailCategoryAdapter = ShoppingDetailAdapter(ShoppingDetailCategoryListener { shoppingDetailCategoryId ->
             shoppingDetailViewModel.onShoppingDetailClicked(shoppingDetailCategoryId)
         })
@@ -34,9 +35,7 @@ class ShoppingDetailFragment : Fragment() {
         shoppingDetailViewModel.navigateToShoppingDetailCategory.observe(this, Observer {
             it?.let {
                 this.findNavController().navigate(
-                    ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingDetailCategoryFragment(
-                        it, 0L
-                    )
+                    ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingDetailCategoryFragment(it)
                 )
                 shoppingDetailViewModel.onShoppingDetailNavigated()
             }
@@ -44,8 +43,8 @@ class ShoppingDetailFragment : Fragment() {
 
         binding.addNewCategory.setOnClickListener {
             this.findNavController().navigate(ShoppingDetailFragmentDirections.actionShoppingDetailFragmentToShoppingDetailCategoryFragment(
-                arguments.shoppingDetailKey, 0L
-            ))
+                arguments.shoppingDetailKey)
+            )
         }
 
         binding.detailCategoryList.adapter = shoppingDetailCategoryAdapter
