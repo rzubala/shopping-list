@@ -1,7 +1,6 @@
 package com.zubala.rafal.shoppinglist.ui.shoppingCategory
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
+import com.zubala.rafal.shoppinglist.database.ShoppingDetailCategory
 import com.zubala.rafal.shoppinglist.databinding.ShoppingCategoryFragmentBinding
 import com.zubala.rafal.shoppinglist.domain.Category
 
@@ -30,19 +30,28 @@ class ShoppingCategoryFragment : Fragment() {
 
         binding.shoppingCategoryViewModel = shoppingCategoryViewModel
 
-        shoppingCategoryViewModel.categories.observe(this, Observer { data ->
-            val adapter = ShoppingCategoryAdapter(this.activity!!, android.R.layout.simple_spinner_item, data)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.shoppingCategory.adapter = adapter
-
+        var categories: List<Category>? = null
+        var shopping: ShoppingDetailCategory? = null
+        shoppingCategoryViewModel.shoppingData.observe(this, object : Observer<MergedData> {
+            override fun onChanged(mergedData: MergedData?) {
+                when (mergedData) {
+                    is ShoppingData -> shopping = mergedData.shopping
+                    is CategoryData -> categories = mergedData.categories
+                }
+                if (shopping != null && categories != null) {
+                    val adapter = ShoppingCategoryAdapter(this@ShoppingCategoryFragment.activity!!, android.R.layout.simple_spinner_item, categories!!)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    binding.shoppingCategory.adapter = adapter
+                    binding.shoppingCategory.setSelection(shoppingCategoryViewModel.getCategorySelection(shopping!!.categoryId))
+                    shoppingCategoryViewModel.shoppingData.removeObserver(this)
+                }
+            }
         })
 
         binding.lifecycleOwner = this
 
-
         binding.shoppingCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -52,6 +61,7 @@ class ShoppingCategoryFragment : Fragment() {
                 }
             }
         }
+
         return binding.root
     }
 }

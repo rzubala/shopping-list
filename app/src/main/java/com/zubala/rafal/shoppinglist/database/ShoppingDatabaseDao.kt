@@ -40,6 +40,9 @@ interface ShoppingDatabaseDao {
     @Query("Select * from shopping_category_table")
     fun getShoppingCategories(): LiveData<List<ShoppingCategory>>
 
+    @Query("Select * from shopping_detail_category WHERE id = :key")
+    fun getShoppingDetailCategoryWithId(key: Long): LiveData<ShoppingDetailCategory>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllCategories(vararg categories: ShoppingCategory)
 

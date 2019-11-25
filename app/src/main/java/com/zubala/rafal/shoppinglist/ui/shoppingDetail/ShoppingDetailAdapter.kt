@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ShoppingDetailAdapter(private val clickListener: ShoppingDetailCategoryListener) : ListAdapter<CategoryItem.DetailCategoryItem, ShoppingDetailAdapter.ViewHolder>(ShoppingDetailCategoryDiffCallback()) {
+class ShoppingDetailAdapter(private val categoryNameRetriever: ShoppingCategoryRetriever, private val clickListener: ShoppingDetailCategoryListener) : ListAdapter<CategoryItem.DetailCategoryItem, ShoppingDetailAdapter.ViewHolder>(ShoppingDetailCategoryDiffCallback()) {
 
     val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -22,7 +22,7 @@ class ShoppingDetailAdapter(private val clickListener: ShoppingDetailCategoryLis
 
     override fun onBindViewHolder(holder: ShoppingDetailAdapter.ViewHolder, position: Int) {
         val shoppingCategoryItem = getItem(position)
-        holder.bind(shoppingCategoryItem.shoppingDetailCategory, clickListener)
+        holder.bind(shoppingCategoryItem.shoppingDetailCategory, categoryNameRetriever, clickListener)
     }
 
     fun submit(categories: List<ShoppingDetailCategory>?) {
@@ -35,10 +35,10 @@ class ShoppingDetailAdapter(private val clickListener: ShoppingDetailCategoryLis
     }
 
     class ViewHolder(private val binding: ListItemDetailCategoryBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(shoppingDetailCategory: ShoppingDetailCategory, clickListener: ShoppingDetailCategoryListener) {
+        fun bind(shoppingDetailCategory: ShoppingDetailCategory, categoryRetriever: ShoppingCategoryRetriever, clickListener: ShoppingDetailCategoryListener) {
             binding.shoppingDetailCategory = shoppingDetailCategory
             shoppingDetailCategory.categoryId.let {categoryId ->
-                val categoryName = "TODO"
+                val categoryName = categoryRetriever.onNameRetrieve(categoryId)
                 binding.shoppingCategoryName = categoryName
             }
             binding.clickListener = clickListener

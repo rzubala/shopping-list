@@ -1,6 +1,7 @@
 package com.zubala.rafal.shoppinglist.ui.shoppingDetail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +28,9 @@ class ShoppingDetailFragment : Fragment() {
 
         binding.shoppingDetailViewModel = shoppingDetailViewModel
 
-        //FIXME get category name
-        val shoppingDetailCategoryAdapter = ShoppingDetailAdapter(ShoppingDetailCategoryListener { shoppingDetailCategoryId ->
+        val shoppingDetailCategoryAdapter = ShoppingDetailAdapter(ShoppingCategoryRetriever { categoryId ->
+            shoppingDetailViewModel.retrieveCategoryName(categoryId)
+        }, ShoppingDetailCategoryListener { shoppingDetailCategoryId ->
             shoppingDetailViewModel.onShoppingDetailClicked(shoppingDetailCategoryId)
         })
 
@@ -54,6 +56,8 @@ class ShoppingDetailFragment : Fragment() {
         shoppingDetailViewModel.shoppingDetailCategories.observe(viewLifecycleOwner, Observer {
             shoppingDetailCategoryAdapter.submit(it)
         })
+
+        shoppingDetailViewModel.categories.observe(viewLifecycleOwner, Observer {  })
 
         return binding.root
     }
