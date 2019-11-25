@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.zubala.rafal.shoppinglist.R
 import com.zubala.rafal.shoppinglist.database.ShoppingDatabase
-import com.zubala.rafal.shoppinglist.database.ShoppingDetailCategory
 import com.zubala.rafal.shoppinglist.databinding.ShoppingCategoryFragmentBinding
 import com.zubala.rafal.shoppinglist.domain.Category
 
@@ -30,20 +29,20 @@ class ShoppingCategoryFragment : Fragment() {
 
         binding.shoppingCategoryViewModel = shoppingCategoryViewModel
 
-        var categories: List<Category>? = null
-        var shopping: ShoppingDetailCategory? = null
-        shoppingCategoryViewModel.shoppingData.observe(this, object : Observer<MergedData> {
-            override fun onChanged(mergedData: MergedData?) {
+        shoppingCategoryViewModel.shoppingData.observe(this, object : Observer<MergedShoppingCategoryData> {
+            override fun onChanged(mergedData: MergedShoppingCategoryData?) {
                 when (mergedData) {
-                    is ShoppingData -> shopping = mergedData.shopping
-                    is CategoryData -> categories = mergedData.categories
+                    is ShoppingData -> shoppingCategoryViewModel.shopping = mergedData.shopping
+                    is CategoryData -> shoppingCategoryViewModel.categories = mergedData.categories
                 }
-                if (shopping != null && categories != null) {
-                    val adapter = ShoppingCategoryAdapter(this@ShoppingCategoryFragment.activity!!, android.R.layout.simple_spinner_item, categories!!)
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.shoppingCategory.adapter = adapter
-                    binding.shoppingCategory.setSelection(shoppingCategoryViewModel.getCategorySelection(shopping!!.categoryId))
-                    shoppingCategoryViewModel.shoppingData.removeObserver(this)
+                shoppingCategoryViewModel.shopping?.let {
+                    shoppingCategoryViewModel.categories?.let {
+                        val adapter = ShoppingCategoryAdapter(this@ShoppingCategoryFragment.activity!!, android.R.layout.simple_spinner_item, shoppingCategoryViewModel.categories!!)
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.shoppingCategory.adapter = adapter
+                        binding.shoppingCategory.setSelection(shoppingCategoryViewModel.getCategorySelection(shoppingCategoryViewModel.shopping!!.categoryId))
+                        shoppingCategoryViewModel.shoppingData.removeObserver(this)
+                    }
                 }
             }
         })
